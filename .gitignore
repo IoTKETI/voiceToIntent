@@ -1,0 +1,7 @@
+voicdToIntent_temp.py
+/build/
+/dist/
+*.pyc
+*.egg-info
+*.swo
+*.swp
