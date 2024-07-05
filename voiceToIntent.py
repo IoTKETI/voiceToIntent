@@ -7,6 +7,7 @@ import playsound
 import time
 from wit import Wit
 import json
+from dataTransf import transform_data
 
 client = Wit('2I6HTQYEDPTZ2QE7VFVX7H4H2WMEITPW')
 
@@ -43,6 +44,17 @@ while True:
         break
 
     resp = client.message(text)
-    print(json.dumps(resp, indent=4, ensure_ascii=False))
+    
+    # 예외처리
+    # intent 추출 실패 시 
+    if resp["intents"] ==[]: # intent 추출 실패 시 
+        continue
+    # intent 가 stand, standby, sit 중 하나가 아닐 경우
+    elif resp["intents"][0]["name"] != "stand" or resp["intents"][0]["name"] != "standby" or resp["intents"][0]["name"] != "sit": 
+        continue
+    
+    intentResult=transform_data(resp)
+    
+    print(json.dumps(intentResult, indent=4, ensure_ascii=False))
 
     time.sleep(0.1)
