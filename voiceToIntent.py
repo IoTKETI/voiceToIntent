@@ -1,4 +1,5 @@
 # ready untill speaking
+# add exception process
 
 import speech_recognition as sr
 from gtts import gTTS
@@ -52,7 +53,7 @@ while True:
     # intent 가 stand, standby, sit 중 하나가 아닐 경우
     elif resp["intents"][0]["name"] != "stand" or resp["intents"][0]["name"] != "standby" or resp["intents"][0]["name"] != "sit": 
         continue
-    
+
     intentResult=transform_data(resp)
     
     print(json.dumps(intentResult, indent=4, ensure_ascii=False))
