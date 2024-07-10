@@ -22,7 +22,7 @@ def transform_data(input_data):
                             {
                                 "id": "entity$00000000001",
                                 "name": "deviceName",
-                                "value": input_data["entities"]["deviceName:deviceName"][0]["value"],
+                                "value": [input_data["entities"]["deviceName:deviceName"][0]["value"]],
                                 "confidence": f"{input_data["entities"]["deviceName:deviceName"][0]["confidence"]:.4f}"
                             }
                         ]
@@ -51,7 +51,7 @@ def transform_data(input_data):
                             {
                                 "id": "entity$00000000001",
                                 "name": "deviceName",
-                                "value": input_data["entities"]["deviceName:deviceName"][0]["value"],
+                                "value": [input_data["entities"]["deviceName:deviceName"][0]["value"]],
                                 "confidence": f"{input_data["entities"]["deviceName:deviceName"][0]["confidence"]:.4f}"
                             }
                         ]
@@ -80,7 +80,7 @@ def transform_data(input_data):
                             {
                                 "id": "entity$00000000001",
                                 "name": "deviceName",
-                                "value": input_data["entities"]["deviceName:deviceName"][0]["value"],
+                                "value": [input_data["entities"]["deviceName:deviceName"][0]["value"]],
                                 "confidence": f"{input_data["entities"]["deviceName:deviceName"][0]["confidence"]:.4f}"
                             }
                         ]

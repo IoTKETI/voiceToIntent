@@ -10,8 +10,16 @@ from wit import Wit
 import json
 from dataTransf import transform_data
 from dataTransf_cc import transform_data_cc
+from paho.mqtt import client as mqtt_client
 
-client = Wit('2I6HTQYEDPTZ2QE7VFVX7H4H2WMEITPW')
+client_wit = Wit('2I6HTQYEDPTZ2QE7VFVX7H4H2WMEITPW')
+
+# mqtt setting
+broker = '192.168.0.2'
+port = 1883
+client = mqtt_client.Client()
+client.connect(broker, port)
+client.loop_start()
 
 def speak(text):
     tts = gTTS(text=text, lang='ko')
@@ -45,22 +53,33 @@ while True:
     if "종료" in text:
         break
 
-    resp = client.message(text)
+    resp = client_wit.message(text)
     # print(resp["intents"][0]["name"])
     
     # 예외처리
     # intent 추출 실패 시 
-    if resp["intents"] ==[]: # intent 추출 실패 시 
+    if resp["intents"] ==[]: # intent 추출 실패 시
+        # speak(text)
+        speak("추출실패, 다시 말씀해 주세요")
         continue
     # intent 가 stand, standby, sit 중 하나 일 경우
     elif resp["intents"][0]["name"] == "stand" or resp["intents"][0]["name"] == "ready" or resp["intents"][0]["name"] == "sit": 
+        speak("메세지 전송 성공")
         intentResult=transform_data(resp)
         intentResult_json=json.dumps(intentResult, indent=4, ensure_ascii=False)
         print(intentResult_json)
-        intentCC=transform_data_cc(intentResult)
-        intentCC_json=json.dumps(intentCC, indent=4, ensure_ascii=False)
-        print(intentCC_json)
+        # intentCC=transform_data_cc(intentResult)
+        # intentCC_json=json.dumps(intentCC, indent=4, ensure_ascii=False)
+        # print(intentCC_json)
+
+        # client.publish("/INTENT_CREATED/KETI_GCS",intentResult_json)
+        client.publish("/intent_created/KETI_GCS",intentResult_json)
+        # time.sleep(1)
+        # client.publish("/RAW_INTENT_CREATED/KETI_GCS",intentCC_json)
+        
         continue
+    else:
+        speak("KRM 명령어가 아닙니다. 다시 말씀해 주세요")
 
     # intentResult=transform_data(resp)
     # print(json.dumps(intentResult, indent=4, ensure_ascii=False))
