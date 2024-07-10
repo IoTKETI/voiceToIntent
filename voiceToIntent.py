@@ -9,6 +9,7 @@ import time
 from wit import Wit
 import json
 from dataTransf import transform_data
+from dataTransf_cc import transform_data_cc
 
 client = Wit('2I6HTQYEDPTZ2QE7VFVX7H4H2WMEITPW')
 
@@ -45,17 +46,23 @@ while True:
         break
 
     resp = client.message(text)
+    # print(resp["intents"][0]["name"])
     
     # 예외처리
     # intent 추출 실패 시 
     if resp["intents"] ==[]: # intent 추출 실패 시 
         continue
-    # intent 가 stand, standby, sit 중 하나가 아닐 경우
-    elif resp["intents"][0]["name"] != "stand" or resp["intents"][0]["name"] != "standby" or resp["intents"][0]["name"] != "sit": 
+    # intent 가 stand, standby, sit 중 하나 일 경우
+    elif resp["intents"][0]["name"] == "stand" or resp["intents"][0]["name"] == "ready" or resp["intents"][0]["name"] == "sit": 
+        intentResult=transform_data(resp)
+        intentResult_json=json.dumps(intentResult, indent=4, ensure_ascii=False)
+        print(intentResult_json)
+        intentCC=transform_data_cc(intentResult)
+        intentCC_json=json.dumps(intentCC, indent=4, ensure_ascii=False)
+        print(intentCC_json)
         continue
 
-    intentResult=transform_data(resp)
-    
-    print(json.dumps(intentResult, indent=4, ensure_ascii=False))
+    # intentResult=transform_data(resp)
+    # print(json.dumps(intentResult, indent=4, ensure_ascii=False))
 
     time.sleep(0.1)
