@@ -42,7 +42,8 @@ def get_audio():
             print("exception: 대기" + str(e))
     return said
 
-speak("KRM 에게 명령을 내리세요.")
+# speak("KRM 에게 명령을 내리세요.")
+playsound.playsound('voice_greeting.mp3')
 
 while True:
     text = get_audio()
@@ -59,12 +60,13 @@ while True:
     # 예외처리
     # intent 추출 실패 시 
     if resp["intents"] ==[]: # intent 추출 실패 시
-        # speak(text)
-        speak("추출실패, 다시 말씀해 주세요")
+        # speak("추출실패, 다시 말씀해 주세요")
+        playsound.playsound('voice_case1.mp3')
         continue
     # intent 가 stand, standby, sit 중 하나 일 경우
     elif resp["intents"][0]["name"] == "stand" or resp["intents"][0]["name"] == "ready" or resp["intents"][0]["name"] == "sit": 
-        speak("메세지 전송 성공")
+        # speak("메세지 전송 성공")
+        playsound.playsound('voice_case2.mp3')
         intentResult=transform_data(resp)
         intentResult_json=json.dumps(intentResult, indent=4, ensure_ascii=False)
         print(intentResult_json)
@@ -79,7 +81,8 @@ while True:
         
         continue
     else:
-        speak("KRM 명령어가 아닙니다. 다시 말씀해 주세요")
+        # speak("KRM 명령어가 아닙니다. 다시 말씀해 주세요")
+        playsound.playsound('voice_case3.mp3')
 
     # intentResult=transform_data(resp)
     # print(json.dumps(intentResult, indent=4, ensure_ascii=False))
